@@ -6,6 +6,10 @@ let player2 = [];
 let firstRun = true;
 let gameOver = false;
 let battleCards = []
+let p1 = document.querySelector("#player1 .hand");
+let p2 = document.querySelector("#player2 .hand");
+let score1 = document.querySelector("#player1 .score");
+let score2 = document.querySelector("#player2 .score");
 const start = document.querySelector("#startBtn")
 
 
@@ -54,21 +58,35 @@ const deal = (deck) => {
 
 const battle = () => {
     if(!gameOver){
-        card1 = player1.shift();
-        card2 = player2.shift();
+       let  card1 = player1.shift();
+        let card2 = player2.shift();
         battleCards.push(card1, card2);
+        console.log({card1});
         //update html
+        p1.innerHTML = showCard(card1)
+        p2.innerHTML = showCard(card2)
         //update winners
         //update scores
         if (card1.cardValue === card2.cardValue) {
           warBattle();
         } else if (card1.cardValue > card2.cardValue) {
           player1.push(battleCards);
+        score1.innerHTML = player1.length;
+        score2.innerHTML = player2.length;
         } else {
           player2.push(battleCards);
+        score1.innerHTML = player1.length;
+          score2.innerHTML = player2.length;
         }
     }
     
+}
+
+const showCard = (card) => {
+    // const move = position * 40;
+    const cardColor = (card.suit == "diams" || card.suit == "hearts") ? "red" : "back";
+    const coloredCard = `<p style=${cardColor}>${parseInt(card.cardValue)} ${card.suit}</p>`
+    return coloredCard
 }
 
 const isGameOver = () => {
@@ -85,6 +103,7 @@ const startGame = () => {
     shuffleCards(deck);
     deal(deck)
   }
+  battle()
   console.log("work ne");
 };
 start.addEventListener("click",
