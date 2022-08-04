@@ -60,35 +60,51 @@ const battle = () => {
     if(!gameOver){
        let  card1 = player1.shift();
         let card2 = player2.shift();
-        battleCards.push(card1, card2);
+        battleCards = [card1, card2];
         console.log({card1});
         //update html
-        p1.innerHTML = showCard(card1)
-        p2.innerHTML = showCard(card2)
+        p1.innerHTML = showCard(card1, 0)
+        p2.innerHTML = showCard(card2, 0)
+        checkWinner(card1, card2, battleCards)
         //update winners
         //update scores
-        if (card1.cardValue === card2.cardValue) {
-          warBattle();
-        } else if (card1.cardValue > card2.cardValue) {
-          player1.push(battleCards);
-        score1.innerHTML = player1.length;
-        score2.innerHTML = player2.length;
-        } else {
-          player2.push(battleCards);
-        score1.innerHTML = player1.length;
-          score2.innerHTML = player2.length;
-        }
+      
     }
     
 }
 
-const showCard = (card) => {
-    // const move = position * 40;
-    const cardColor = (card.suit == "diams" || card.suit == "hearts") ? "red" : "back";
-    const coloredCard = `<p style=${cardColor}>${parseInt(card.cardValue)} ${card.suit}</p>`
-    return coloredCard
-}
 
+const showCard = (card, pos) => {
+    const move = pos * 40;
+    const cardColor = (card.suit == "diams" || card.suit == "hearts") ? "red" : "back"
+    const bCard = '<div style="color:'+cardColor+'">' + card.cardValue + ' &' + card.suit + '; </div>';
+    //  const bCard = `<div style="color:${cardColor}">' + ${card.cardValue} + ' &' + ${card.suit} + ';</div>`;
+    //  const testCard= '<div style="color:'+cardColor+'">' + card.cardValue + ' &' + card.suit + ';</div>';
+    // const coloredCard = `<div style=${cardColor}>${divarseInt(card.cardValue)} ${card.suit}</p>`
+    return bCard
+    // return testCard
+}
+const checkWinner = (card1, card2, battleCards) => {
+  if (card1.cardValue === card2.cardValue) {
+    console.log("warBattle");
+    warBattle(player1, player2);
+  } else if (card1.cardValue > card2.cardValue) {
+    player1 = player1.concat(battleCards);
+    score1.innerHTML = `SCORE: ${player1.length}`;
+    score2.innerHTML = `SCORE: ${player2.length}`;
+  } else {
+    player2 = player2.concat(battleCards);
+    score1.innerHTML = `SCORE: ${player1.length}`;
+    score2.innerHTML = `SCORE: ${player2.length}`;
+  }
+};
+
+const warBattle = (player1, player2) => {
+    battleCards.concat(player1.shift(), player2.shift());
+    newCard1 = player1.shift();
+    newCard2 = player2.shift();
+    checkWinner(newCard1, newCard2)
+}
 const isGameOver = () => {
     if(player1.length === 0 || player2.length === 0){
         gameOver = true;
