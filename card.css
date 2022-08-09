@@ -11,7 +11,10 @@
     padding: 0;
     margin-right: 100px;
 }
-
+.action p {
+    display: none;
+    color: green;
+}
 
 
 .score{

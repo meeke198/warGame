@@ -10,6 +10,7 @@ let p1 = document.querySelector("#player1 .hand");
 let p2 = document.querySelector("#player2 .hand");
 let score1 = document.querySelector("#player1 .score");
 let score2 = document.querySelector("#player2 .score");
+let message = document.querySelector("#message");
 const start = document.querySelector("#startBtn")
 
 
@@ -90,6 +91,7 @@ const showCard = (card, pos) => {
     return bCard
 }
 const checkWinner = (card1, card2, battleCards) => {
+    console.log({card1})
   if (card1.cardValue === card2.cardValue) {
     console.log("warBattle");
     warBattle(battleCards);
@@ -130,9 +132,16 @@ const warBattle = (battleCards) => {
     checkWinner(card1, card2, battleCards)
 }
 const isGameOver = () => {
-    if(player1.length < 10 || player2.length < 10){
+    if(player1.length < 20 || player2.length < 20){
         gameOver = true;
-        console.log("Game over");
+        console.log("In game is over");
+        if(player1.length < 0){
+            message.style.display = "in block"
+            message.innerHTML = "Player2 won!!!!"
+        } else {
+            message.style.display = "in block";
+           message.innerHTML = "Player1 won!!!!"
+        }
     }
 }
 
@@ -146,6 +155,14 @@ const startGame = () => {
   }
   battle()
   console.log("work ne");
+};
+const restartGame = () => {
+    firstRun = false;
+    createCard();
+    shuffleCards(deck);
+    deal(deck);
+    battle();
+  console.log("restart ne");
 };
 start.addEventListener("click",
   startGame);
